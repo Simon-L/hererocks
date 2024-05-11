@@ -18,15 +18,14 @@ jobs:
   build:
     strategy:
       matrix:
-        #os: [ubuntu-latest, windows-latest, macos-latest]
-        os: [windows-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         include:
           - os: windows-latest
             dest_dir: win64-${{ github.sha }}
-          #- os: ubuntu-latest
-           # dest_dir: ubuntu-${{ github.sha }}
-          #- os: macos-latest
-           # dest_dir: macos-${{ github.sha }}
+          - os: ubuntu-latest
+            dest_dir: ubuntu-${{ github.sha }}
+          - os: macos-latest
+            dest_dir: macos-${{ github.sha }}
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
 
@@ -68,8 +67,6 @@ jobs:
           chmod +x ${{ env.DEST_DIR }}/bin/lua
 
       - name: Test the installation
-        #if: matrix.os != 'windows-latest'
-        #shell: bash
         run: |
           cd ${{ env.DEST_DIR }}/bin
           ./lua ${{ github.workspace }}/.github/workflows/test-installation.lua
