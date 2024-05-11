@@ -54,6 +54,7 @@ jobs:
           ${{ env.DEST_DIR }}/bin/luarocks.bat install inspect
           ${{ env.DEST_DIR }}/bin/luarocks.bat install luasocket
           ${{ env.DEST_DIR }}/bin/luarocks.bat install rxi-json-lua
+          ${{ env.DEST_DIR }}/bin/luarocks.bat install penlight
           
       - name: (Ubuntu & MacOS) Build luajit and luarocks
         if: matrix.os != 'windows-latest'
@@ -63,8 +64,29 @@ jobs:
           ${{ env.DEST_DIR }}/bin/luarocks install luasocket
           ${{ env.DEST_DIR }}/bin/luarocks install luaposix
           ${{ env.DEST_DIR }}/bin/luarocks install rxi-json-lua
+          ${{ env.DEST_DIR }}/bin/luarocks install penlight
           
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.os }}_dir
           path: ${{ env.DEST_DIR }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}_dir
+          path: ${{ env.DEST_DIR }}
+
+      - name: Delete old release assets
+        uses: mknejp/delete-release-assets@v1
+        with:
+          token: ${{ github.token }}
+          tag: Nightly # This may also be of the form 'refs/tags/staging'
+          assets: '*'
+
+      - name: Upload release assets
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ env.DEST_DIR }}
+          tag: Nightly
+          file_glob: true
