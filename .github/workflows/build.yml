@@ -76,19 +76,21 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ build ]
     steps:
-      - uses: actions/download-artifact@v2
-        with:
-          path: _artifacts
       - name: Delete old release assets
         uses: mknejp/delete-release-assets@v1
         with:
           token: ${{ github.token }}
           tag: Nightly # This may also be of the form 'refs/tags/staging'
           assets: '*'
+      - name: Download all workflow run artifacts
+        uses: actions/download-artifact@v4
+      - name: Check
+        shell: bash
+        run: ls -la
       - name: Upload release assets
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: _artifacts/*
+          file: ./*_dir
           tag: Nightly
           file_glob: true
