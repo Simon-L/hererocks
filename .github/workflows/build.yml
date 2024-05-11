@@ -67,6 +67,12 @@ jobs:
           ${{ env.DEST_DIR }}/bin/luarocks install penlight
           chmod +x ${{ env.DEST_DIR }}/bin/lua
 
+      - name: Test the installation
+        shell: bash
+        run: |
+          cd ${{ env.DEST_DIR }}/bin
+          ./lua ${{ github.workspace }}/.github/workflows/test-installation.lua
+
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.os }}_dir
