@@ -15,7 +15,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build-linux:
+  build:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
@@ -71,17 +71,24 @@ jobs:
           name: ${{ matrix.os }}_dir
           path: ${{ env.DEST_DIR }}
 
+  publish-nightly:
+    name: Publish Nightly
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          path: _artifacts
       - name: Delete old release assets
         uses: mknejp/delete-release-assets@v1
         with:
           token: ${{ github.token }}
           tag: Nightly # This may also be of the form 'refs/tags/staging'
           assets: '*'
-
       - name: Upload release assets
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ env.DEST_DIR }}
+          file: _artifacts/*
           tag: Nightly
           file_glob: true
