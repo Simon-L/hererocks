@@ -21,6 +21,7 @@ jobs:
         os: [windows-latest]
         include:
           - os: windows-latest
+            dest_dir: win64-${{ github.sha }}
         #os: [ubuntu-latest, windows-latest, macos-latest]
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
@@ -31,7 +32,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-
+          
+      - name: Set things
+        run: |
+          echo 'DEST_DIR=$(pwd)/${{ matrix.dest_dir }}' >> $GITHUB_ENV
+          
       - name: Set MACOSX_DEPLOYMENT_TARGET
         if: runner.os == 'macOS'
         run: |
@@ -39,20 +44,11 @@ jobs:
 
       - name: (Windows) Build luajit and luarocks
         if: matrix.os == 'windows-latest'
-        shell: bash
         run: |
-          python hererocks.py $(pwd)/x86_64_dir --target vs -j @v2.1 -rlatest --verbose
-          pwd
-          pwd
-          pwd
-          pwd
-          ls
-          ls
-          ls
-          ls
-          $(pwd)/x86_64_dir/bin/luarocks install inspect
-          $(pwd)/x86_64_dir/bin/luarocks install luasocket
-          $(pwd)/x86_64_dir/bin/luarocks install rxi-json-lua
+          python hererocks.py ${{ env.DEST_DIR }} --target vs -j `@v2.1 -rlatest --verbose
+          ${{ env.DEST_DIR }}/bin/luarocks.bat install inspect
+          ${{ env.DEST_DIR }}/bin/luarocks.bat install luasocket
+          ${{ env.DEST_DIR }}/bin/luarocks.bat install rxi-json-lua
           
       - uses: actions/upload-artifact@v4
         with:
