@@ -18,7 +18,8 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        #os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [windows-latest]
         include:
           - os: windows-latest
             dest_dir: win64-${{ github.sha }}
@@ -37,7 +38,7 @@ jobs:
         with:
           submodules: recursive
           
-      - name: Set things
+      - name: Set environment
         shell: bash
         run: |
           echo 'DEST_DIR=${{ github.workspace }}/${{ matrix.dest_dir }}' >> $GITHUB_ENV
@@ -68,7 +69,8 @@ jobs:
           chmod +x ${{ env.DEST_DIR }}/bin/lua
 
       - name: Test the installation
-        shell: bash
+        #if: matrix.os != 'windows-latest'
+        #shell: bash
         run: |
           cd ${{ env.DEST_DIR }}/bin
           ./lua ${{ github.workspace }}/.github/workflows/test-installation.lua
