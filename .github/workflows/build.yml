@@ -40,7 +40,7 @@ jobs:
       - name: Build luajit and luarocks
         if: matrix.os != 'windows-latest'
         run: |
-          python ./hererocks/hererocks.py x86_64_dir -j @v2.1 -rlatest --verbose
+          python hererocks.py x86_64_dir -j @v2.1 -rlatest --verbose
           ./x86_64_dir/bin/luarocks install inspect
           ./x86_64_dir/bin/luarocks install luaposix
           ./x86_64_dir/bin/luarocks install luasocket
@@ -50,7 +50,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         shell: bash
         run: |
-          python ./hererocks/hererocks.py $(pwd)/x86_64_dir --target vs -j @v2.1 -rlatest --verbose
+          python hererocks.py $(pwd)/x86_64_dir --target vs -j @v2.1 -rlatest --verbose
           ./x86_64_dir/bin/luarocks install inspect
           ./x86_64_dir/bin/luarocks install luasocket
           ./x86_64_dir/bin/luarocks install rxi-json-lua
