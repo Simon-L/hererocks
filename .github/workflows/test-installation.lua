@@ -9,6 +9,7 @@ else
 end
 
 -- Mashup of examples from default packages
+print("Detected OS:", jit.os)
 
 print("BEGIN Testing Socket")
 -----------------------------------------------------------------------------
