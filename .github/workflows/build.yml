@@ -38,6 +38,7 @@ jobs:
           submodules: recursive
           
       - name: Set things
+        shell: bash
         run: |
           echo 'DEST_DIR=${{ github.workspace }}/${{ matrix.dest_dir }}' >> $GITHUB_ENV
           
