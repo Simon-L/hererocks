@@ -36,24 +36,15 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           echo 'MACOSX_DEPLOYMENT_TARGET=14.0' >> $GITHUB_ENV
-          
-      - name: Build luajit and luarocks
-        if: matrix.os != 'windows-latest'
-        run: |
-          python hererocks.py x86_64_dir -j @v2.1 -rlatest --verbose
-          ./x86_64_dir/bin/luarocks install inspect
-          ./x86_64_dir/bin/luarocks install luaposix
-          ./x86_64_dir/bin/luarocks install luasocket
-          ./x86_64_dir/bin/luarocks install rxi-json-lua
-      
+
       - name: (Windows) Build luajit and luarocks
         if: matrix.os == 'windows-latest'
         shell: bash
         run: |
           python hererocks.py $(pwd)/x86_64_dir --target vs -j @v2.1 -rlatest --verbose
-          ./x86_64_dir/bin/luarocks install inspect
-          ./x86_64_dir/bin/luarocks install luasocket
-          ./x86_64_dir/bin/luarocks install rxi-json-lua
+          $(pwd)/x86_64_dir/bin/luarocks install inspect
+          $(pwd)/x86_64_dir/bin/luarocks install luasocket
+          $(pwd)/x86_64_dir/bin/luarocks install rxi-json-lua
           pwd
           pwd
           pwd
