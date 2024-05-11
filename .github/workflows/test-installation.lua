@@ -2,7 +2,11 @@
 
 -- Use relative paths for modules
 package.path = "./?.lua;../share/lua/5.1/?.lua;../share/lua/5.1/?/init.lua"
-package.cpath = "./?.so;../lib/lua/5.1/?.so;../lib/lua/5.1/loadall.so"
+if jit.os ~= "Windows") then
+    package.cpath = "./?.so;../lib/lua/5.1/?.so;../lib/lua/5.1/loadall.so"
+else
+    package.cpath = "./?.dll;../lib/lua/5.1/?.dll;../lib/lua/5.1/loadall.dll"
+end
 
 -- Mashup of examples from default packages
 
