@@ -65,11 +65,6 @@ jobs:
           ${{ env.DEST_DIR }}/bin/luarocks install luaposix
           ${{ env.DEST_DIR }}/bin/luarocks install rxi-json-lua
           ${{ env.DEST_DIR }}/bin/luarocks install penlight
-          
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.os }}_dir
-          path: ${{ env.DEST_DIR }}
 
       - uses: actions/upload-artifact@v4
         with:
