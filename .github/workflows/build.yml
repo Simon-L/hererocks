@@ -18,10 +18,14 @@ jobs:
   build-linux:
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         include:
           - os: windows-latest
             dest_dir: ${{ github.workspace }}/win64-${{ github.sha }}
+          - os: ubuntu-latest
+            dest_dir: ${{ github.workspace }}/ubuntu-${{ github.sha }}
+          - os: macos-latest
+            dest_dir: ${{ github.workspace }}/macos-${{ github.sha }}
         #os: [ubuntu-latest, windows-latest, macos-latest]
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
@@ -51,7 +55,16 @@ jobs:
           ${{ matrix.dest_dir }}/bin/luarocks.bat install luasocket
           ${{ matrix.dest_dir }}/bin/luarocks.bat install rxi-json-lua
           
+      - name: (Ubuntu & MacOS) Build luajit and luarocks
+        if: matrix.os != 'windows-latest'
+        run: |
+          python hererocks.py ${{ matrix.dest_dir }} -j @v2.1 -rlatest --verbose
+          ${{ matrix.dest_dir }}/bin/luarocks install inspect
+          ${{ matrix.dest_dir }}/bin/luarocks install luasocket
+          ${{ matrix.dest_dir }}/bin/luarocks install luaposix
+          ${{ matrix.dest_dir }}/bin/luarocks install rxi-json-lua
+          
       - uses: actions/upload-artifact@v4
         with:
-          name: x86_64_dir
-          path: ./x86_64_dir/
+          name: ${{ matrix.os }}_dir
+          path: ${{ matrix.dest_dir }}
