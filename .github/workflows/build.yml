@@ -91,6 +91,5 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ./*_dir
+          file: macos-latest_dir
           tag: Nightly
-          file_glob: true
