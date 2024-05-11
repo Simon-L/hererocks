@@ -23,11 +23,10 @@ jobs:
         include:
           - os: windows-latest
             dest_dir: win64-${{ github.sha }}
-          - os: ubuntu-latest
-            dest_dir: ubuntu-${{ github.sha }}
-          - os: macos-latest
-            dest_dir: macos-${{ github.sha }}
-        #os: [ubuntu-latest, windows-latest, macos-latest]
+          #- os: ubuntu-latest
+           # dest_dir: ubuntu-${{ github.sha }}
+          #- os: macos-latest
+           # dest_dir: macos-${{ github.sha }}
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
 
