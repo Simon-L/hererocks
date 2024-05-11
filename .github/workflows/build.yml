@@ -42,13 +42,17 @@ jobs:
         shell: bash
         run: |
           python hererocks.py $(pwd)/x86_64_dir --target vs -j @v2.1 -rlatest --verbose
+          pwd
+          pwd
+          pwd
+          pwd
+          ls
+          ls
+          ls
+          ls
           $(pwd)/x86_64_dir/bin/luarocks install inspect
           $(pwd)/x86_64_dir/bin/luarocks install luasocket
           $(pwd)/x86_64_dir/bin/luarocks install rxi-json-lua
-          pwd
-          pwd
-          pwd
-          pwd
           
       - uses: actions/upload-artifact@v4
         with:
