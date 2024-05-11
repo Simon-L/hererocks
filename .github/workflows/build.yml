@@ -87,13 +87,14 @@ jobs:
       - name: Check
         shell: bash
         run: |
-          ls -la
-          touch hello
+          tar -C ubuntu-latest_dir -czf ubuntu-latest.tar.gz .
+          tar -C windows-latest_dir -czf windows-latest.tar.gz .
+          tar -C macos-latest_dir -czf macos-latest.tar.gz .
       - name: Upload release assets
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: '*'
+          file: '*.tar.gz'
           tag: Nightly
           overwrite: true
           file_glob: true
