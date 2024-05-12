@@ -18,13 +18,13 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-13]
         include:
           - os: windows-latest
             dest_dir: win64-${{ github.sha }}
           - os: ubuntu-latest
             dest_dir: ubuntu-${{ github.sha }}
-          - os: macos-latest
+          - os: macos-13
             dest_dir: macos-${{ github.sha }}
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
@@ -94,7 +94,7 @@ jobs:
         run: |
           tar -C ubuntu-latest_dir -czf ubuntu-latest.tar.gz .
           tar -C windows-latest_dir -czf windows-latest.tar.gz .
-          tar -C macos-latest_dir -czf macos-latest.tar.gz .
+          tar -C macos-13_dir -czf macos-13.tar.gz .
       - name: Upload release assets
         uses: svenstaro/upload-release-action@v2
         with:
