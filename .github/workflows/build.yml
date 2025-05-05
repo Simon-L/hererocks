@@ -93,7 +93,7 @@ jobs:
       - name: Check
         shell: bash
         run: |
-          tar -C ubuntu-latest_dir -czf ubuntu-latest.tar.gz .
+          tar -C ubuntu-22.04_dir -czf ubuntu-22.04.tar.gz .
           tar -C windows-latest_dir -czf windows-latest.tar.gz .
           tar -C macos-13_dir -czf macos-13.tar.gz .
       - name: Upload release assets
