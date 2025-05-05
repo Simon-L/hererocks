@@ -104,3 +104,17 @@ jobs:
           tag: Nightly
           overwrite: true
           file_glob: true
+      - shell: bash
+        run: |
+          mkdir output
+          cp *.tar.gz output/
+      - name: Pushes to another repository
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: 'output'
+          destination-github-username: 'Simon-L'
+          destination-repository-name: 'binaries'
+          user-email: foo@bar.com
+          target-branch: hererocks
