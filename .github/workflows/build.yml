@@ -18,11 +18,11 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-20.04, windows-latest, macos-13]
+        os: [ubuntu-22.04, windows-latest, macos-13]
         include:
           - os: windows-latest
             dest_dir: win64-${{ github.sha }}
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             dest_dir: ubuntu-${{ github.sha }}
           - os: macos-13
             dest_dir: macos-${{ github.sha }}
@@ -78,8 +78,8 @@ jobs:
 
   publish-nightly:
     name: Publish Nightly
-    runs-on: ubuntu-20.04
-    #needs: [ build ]
+    runs-on: ubuntu-22.04
+    needs: [ build ]
     steps:
       - name: Delete old release assets
         uses: mknejp/delete-release-assets@v1
